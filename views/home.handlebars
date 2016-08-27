@@ -1,0 +1,44 @@
+<div class="container">
+
+
+	{{#each posts}}
+
+
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+		<div class="post">
+			
+			<div class="container-flud inline">
+				<div class="name">
+					<h4>{{name}}</h4>
+				</div>
+			
+				<div class="date">
+					{{date}}
+				</div>
+			
+				<div class="time">
+					{{time}}
+				</div>
+			</div>
+			
+			<hr class="hr2">
+			
+			<div class="container-flud inline">
+				<div class="text dont-break-out">
+					{{{content}}}
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+
+	{{/each}}
+
+
+</div>
+
+
+
+
+

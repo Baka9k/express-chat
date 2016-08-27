@@ -1,0 +1,118 @@
+<!doctype html>
+
+<html lang="ru">
+
+
+
+
+<head>
+
+	<!--META-->
+	
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta name="keywords" content="Anonimous chat">
+		<meta name="description" content="Anonimous chat">
+	
+		<title>Anonimous chat</title>
+	
+	<!--FONTS-->
+		
+		<!--Roboto-->
+		<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,700&subset=cyrillic" rel="stylesheet">
+		<!--Lobster-->
+		<link href="https://fonts.googleapis.com/css?family=Lobster&subset=cyrillic" rel="stylesheet">
+		<!--Font awesome-->
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+	
+	<!--CSS-->
+	
+		<link media="all" type="text/css" href="views/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+		<link media="all" type="text/css" href="views/css/style.css" rel="stylesheet">
+	
+	<!--FAVICONS-->
+	
+		<link rel="apple-touch-icon" sizes="57x57" href="favicons/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="favicons/apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="favicons/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="favicons/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="favicons/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="favicons/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="favicons/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="favicons/apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192"  href="favicons/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="favicons/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+		<link rel="manifest" href="favicons/manifest.json">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="favicons/ms-icon-144x144.png">
+		<meta name="application-name" content="Anonimous chat">
+		<meta name="msapplication-tooltip" content="Anonimous chat">
+		<meta name="msapplication-config" content="favicons/browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
+	
+</head>
+
+
+
+
+<body>
+
+
+<!--HEADER-->
+
+<nav class="navbar navbar-default whitenav">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Анонимный чатик Котобаки</a>
+    </div>
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!--/HEADER-->
+
+
+<!--BODY-->
+
+{{{body}}}
+
+<div class="container">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
+		<div class="post">
+			<h4>Add message:</h4>
+			<hr class="hr2">
+			<form id="nyaform" name="nyaform" action="postnya" method="post">
+			  <div class="form-group">
+				<textarea class="form-control"  id="content" name="content" placeholder="Your message"></textarea>
+			  </div>
+			  <button type="submit" class="btn btn-submit btn-animated">Submit</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!--/BODY-->
+
+
+
+
+<!--JS-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="views/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+<!--/JS-->
+
+</body>
+
+
+
+
+</html>
