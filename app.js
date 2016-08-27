@@ -1,7 +1,7 @@
 var express = require('express');
 var exphbs  = require('express-handlebars');
 var path = require('path');
-var sqlite3 = require('sqlite3');
+var mongoose = require('mongoose');
 
 var app = express();
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -14,42 +14,23 @@ var upload = multer(); // for parsing multipart/form-data
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-app.use(express.static(__dirname + '/')); 
 
 
-//===========================SQLITE============================
+//===========================MONGODB============================
 
-function SQLiteStorage(pathToDB) {
-	this.db = new sqlite3.Database(pathToDB);
-	return this;
-};
+// Connect to MongoDB and create/use database called bChat
+mongoose.connect('mongodb://localhost/bChat');
 
-SQLiteStorage.prototype.getPosts = function(from, to, callback) {
-	var db = this.db;
-	db.serialize(function() {
-		db.all('SELECT * FROM Posts LIMIT ' + to + ' OFFSET ' + from, function(err, rows) {
-			if (typeof callback == "function") {
-				callback(rows);
-			}
-		});
-	});
-};
+// Create a schema
+var bChatSchema = new mongoose.Schema({
+  message: String,
+  date: String,
+  time: String,
+});
 
-SQLiteStorage.prototype.addPost = function(content, callback) {
-	var db = this.db;
-	var date = getDateString();
-	var time = getTimeString();
-	db.serialize(function() {
-		db.run("INSERT INTO Posts (date, time, content) VALUES ('" + date + "','" + time + "','" + content + "');");
-	});
-	if (typeof callback == "function") {
-		callback();
-	}
-};
+// Create a model based on the schema
+var bChatModel = mongoose.model('bChat', bChatSchema);
 
-SQLiteStorage.prototype.countPosts = function() {
-	return this.posts.length;
-};
 
 
 //====================================================================
@@ -75,7 +56,7 @@ var getTimeString = function() {
 
 //===================================================================
 
-var storage = new SQLiteStorage("db/posts.db");
+//var storage = new SQLiteStorage("db/posts.db");
 
 
 
