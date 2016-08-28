@@ -30,7 +30,7 @@ SQLiteStorage.prototype.getPosts = function(from, to, callback) {
 	var db = this.db;
 	db.serialize(function() {
 		db.all('SELECT * FROM Posts LIMIT ' + to + ' OFFSET ' + from, function(err, rows) {
-			if (err) console.log('SQL Error:', err);
+			if (err) console.log('SQLite Error:', err);
 			if (typeof callback == "function") {
 				callback(rows);
 			}
@@ -45,7 +45,7 @@ SQLiteStorage.prototype.addPost = function(content, callback) {
 	db.serialize(function() {
 	    var query = "INSERT INTO Posts (date, time, content) VALUES (?, ?, ?)";
 		db.run(query, date, time, content, function (err) {
-			if (err) console.log('SQL Error:', err);
+			if (err) console.log('SQLite Error:', err);
 			if (typeof callback == "function") {
 				callback();
 			}
@@ -57,7 +57,7 @@ SQLiteStorage.prototype.countPosts = function(callback) {
 	var query = "SELECT COUNT(*) FROM Posts;";
 	db.run(query, function (err, rows) {
 		callback && callback (rows['COUNT ']); 
-		if (err) console.log('SQL Error:', err);
+		if (err) console.log('SQLite Error:', err);
 	});
 };
 
