@@ -15,7 +15,7 @@ var upload = multer(); // for parsing multipart/form-data
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-pp.use(express.static(__dirname + '/')); 
+app.use(express.static(__dirname + '/')); 
 
 
 
@@ -87,7 +87,7 @@ MongoStorage.prototype.addPost = function(content, callback) {
 	model.create({message: content, date: date, time: time}, function(err) {
 		if(err) console.log("MongoDB error:", err);
 	});
-});
+};
 
 MongoStorage.prototype.getPosts = function(from, to, callback) {
 	var model = this.model;
