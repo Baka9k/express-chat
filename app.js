@@ -72,7 +72,7 @@ var bChatSchema = new mongoose.Schema({
 	time: String,
 });
 
-function Mongo(dbName, schema) {
+function MongoStorage(dbName, schema) {
 	// Connect to MongoDB and create/use database called <dbName>
 	mongoose.connect('mongodb://localhost/' + dbName);
 	// Create a model based on the schema
@@ -80,12 +80,37 @@ function Mongo(dbName, schema) {
 	return this;
 };
 
-Mongo.prototype.addPost = function(content, callback) {
+MongoStorage.prototype.addPost = function(content, callback) {
 	var model = this.model;
-	model.create({message: content, date: date, time: time}, function(err, todo){
-  if(err) console.log(err);
-  else console.log(todo);
+	var date = getDateString();
+	var time = getTimeString();
+	model.create({message: content, date: date, time: time}, function(err) {
+		if(err) console.log("MongoDB error:", err);
+	});
 });
+
+MongoStorage.prototype.getPosts = function(from, to, callback) {
+	var model = this.model;
+	var nPosts = to - from;
+	model
+		.find({})
+		.skip(from)
+		.limit(nPosts)
+		.exec(function(err, posts) {
+			if (err) console.log("MongoDB error:", err);
+			callback(posts);
+		});
+};
+
+MongoStorage.prototype.countPosts = function(callback) {
+	var model = this.model;
+	model.count({}, function(err, count) {
+        if (err) console.log("MongoDB error:", err);
+		callback(count);
+     });
+};
+
+
 
 //====================================================================
 
@@ -108,11 +133,11 @@ var getTimeString = function() {
 };
 
 
+
 //===================================================================
 
-//var storage = new SQLiteStorage("db/posts.db");
-
-
+var storage = new SQLiteStorage("db/posts.db");
+//var storage = new MongoStorage("posts", bChatSchema);
 
 var getPosts = function(callback) {
 	storage.getPosts(0, 100, function(posts) {
@@ -121,6 +146,8 @@ var getPosts = function(callback) {
 		});
 	});
 };
+
+
 
 //==============================HTTP==================================
 
