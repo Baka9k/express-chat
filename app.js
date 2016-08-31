@@ -67,7 +67,7 @@ SQLiteStorage.prototype.countPosts = function(callback) {
 
 // Create a schema
 var bChatSchema = new mongoose.Schema({
-	message: String,
+	content: String,
 	date: String,
 	time: String,
 });
@@ -84,7 +84,7 @@ MongoStorage.prototype.addPost = function(content, callback) {
 	var model = this.model;
 	var date = getDateString();
 	var time = getTimeString();
-	model.create({message: content, date: date, time: time}, function(err) {
+	model.create({content: content, date: date, time: time}, function(err) {
 		if(err) console.log("MongoDB error:", err);
 	});
 };
@@ -136,8 +136,8 @@ var getTimeString = function() {
 
 //===================================================================
 
-var storage = new SQLiteStorage("db/posts.db");
-//var storage = new MongoStorage("posts", bChatSchema);
+//var storage = new SQLiteStorage("db/posts.db");
+var storage = new MongoStorage("posts", bChatSchema);
 
 var getPosts = function(callback) {
 	storage.getPosts(0, 100, function(posts) {
