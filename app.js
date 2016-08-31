@@ -86,6 +86,7 @@ MongoStorage.prototype.addPost = function(content, callback) {
 	var time = getTimeString();
 	model.create({content: content, date: date, time: time}, function(err) {
 		if(err) console.log("MongoDB error:", err);
+		callback();
 	});
 };
 
