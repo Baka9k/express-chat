@@ -4,9 +4,10 @@ var path = require('path');
 var mongoose = require('mongoose');
 var sqlite3 = require('sqlite3');
 
-var WebSocket = require('ws');
-
 var app = express();
+
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -172,7 +173,7 @@ app.post('/postnya', upload.array(), function(req, res) {
 	});
 });
 
-app.listen(3000, function () {
+server.listen(3000, function () {
 	console.log('Example app listening on port 3000!');
 });
 
@@ -182,19 +183,14 @@ function genUniqueId() {
 }
 */
 
-var wss = new WebSocket.Server({ port: 3333 });
-
-wss.on('connection', function connection(ws) {
-    console.log('client connected to ws');
-    ws.on('message', function incoming(message) {
-        console.log('received message:', message);
-    });
+io.on('connection', function (socket) {
+  console.log('client connected to socketio');
 });
 
 function notifyUsers(msg) {
 	var date = getDateString();
 	var time = getTimeString();
-	wss.clients.forEach( client => client.send(JSON.stringify({content: msg, date: date, time: time})) );
+	io.emit('msg', JSON.stringify({content: msg, date: date, time: time}));
 }
 
 //=============================== AJAX ==============================
