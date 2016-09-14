@@ -1,20 +1,24 @@
 {
-  "name": "express_hello",
+  "name": "express-chat",
   "version": "1.0.0",
-  "description": "Learn express",
+  "description": "Chat on WebSocket, AJAX and Express",
   "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Baka9k/express-chat.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Baka",
-  "license": "ISC",
+  "author": "Baka9k",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
-    "mongoose": "^4.5.10",
+    "mongoose": "^4.6.0",
     "multer": "^1.2.0",
-    "socket.io-client": "^1.4.8",
-    "sqlite3": "^3.1.4"
+    "sqlite3": "^3.1.4",
+    "ws": "^1.1.1"
   }
 }

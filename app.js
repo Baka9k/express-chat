@@ -3,16 +3,17 @@ var exphbs  = require('express-handlebars');
 var path = require('path');
 var mongoose = require('mongoose');
 var sqlite3 = require('sqlite3');
-
 var WebSocket = require('ws');
+var bodyParser = require('body-parser');
+var multer = require('multer'); // v1.0.5
+
+var webSocketServer = new WebSocket.Server({port: 3333});
 
 var app = express();
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-var bodyParser = require('body-parser');
-var multer = require('multer'); // v1.0.5
 var upload = multer(); // for parsing multipart/form-data
 
 app.use(bodyParser.json()); // for parsing application/json
@@ -136,7 +137,6 @@ var getTimeString = function() {
 
 
 
-//===================================================================
 
 var storage = new SQLiteStorage("db/posts.db");
 //var storage = new MongoStorage("posts", bChatSchema);
@@ -156,6 +156,7 @@ var getPostsForAjax = function(callback) {
 };
 
 
+
 //==============================HTTP==================================
 
 app.get('/', function(req, res) {
@@ -172,48 +173,49 @@ app.post('/postnya', upload.array(), function(req, res) {
 	});
 });
 
+
 app.listen(3000, function () {
 	console.log('Example app listening on port 3000!');
 });
 
-/*
-function genUniqueId() {
-    return Math.floor(Math.random()*1e9).toString()+Math.floor(Math.random()*1e9).toString();
-}
-*/
 
-var wss = new WebSocket.Server({ port: 3333 });
-
-wss.on('connection', function connection(ws) {
-    console.log('client connected to ws');
-    ws.on('message', function incoming(message) {
-        console.log('received message:', message);
-    });
-});
-
-function notifyUsers(msg) {
-	var date = getDateString();
-	var time = getTimeString();
-	wss.clients.forEach( client => client.send(JSON.stringify({content: msg, date: date, time: time})) );
-}
 
 //=============================== AJAX ==============================
 
 app.get('/ajax/getall', function(req, res) {
 	getPostsForAjax(function(content) {
-	    //setTimeout(() => { res.json(content) }, 1000);
 	    res.json(content)
 	});
 });
 
 app.post('/ajax/post', upload.array(), function(req, res) {
 	var content = req.body.content;
-	notifyUsers(content);
 	storage.addPost(content, function () { 
-		//getPostsForAjax((content) => { res.json(content) });
-		res.json({status: "ok"});
+		getPostsForAjax((content) => { res.json(content) });
+		notifyUsers({date: getDateString(), time: getTimeString(), content: content});
 	});
 });
+
+
+
+//============================== WebSocket =============================
+
+webSocketServer.on('connection', function (socket) {
+    console.log('New WebSocket connection');  
+});
+
+var notifyUsers = function(message) {
+    var JSONMessage = JSON.stringify(message);
+    webSocketServer.clients.forEach(function (client) {
+        client.send(JSONMessage);
+    });
+};
+
+
+
+
+
+
 
 
 
