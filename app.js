@@ -6,6 +6,7 @@ var sqlite3 = require('sqlite3');
 var WebSocket = require('ws');
 var bodyParser = require('body-parser');
 var multer = require('multer'); // v1.0.5
+var fs  = require('fs');
 
 var webSocketServer = new WebSocket.Server({port: 3333});
 
@@ -20,6 +21,8 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.use(express.static(__dirname + '/'));
+
+var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 
 //===========================SQLITE============================
 
@@ -138,8 +141,15 @@ var getTimeString = function() {
 
 
 
-var storage = new SQLiteStorage("db/posts.db");
-//var storage = new MongoStorage("posts", bChatSchema);
+if (config.storage == "sqlite") {
+	var storage = new SQLiteStorage("db/posts.db");
+} else if (config.storage == "mongo") {
+	var storage = new MongoStorage("posts", bChatSchema);
+} else if ( (config.storage == "") || (!config.storage) ) {
+	console.log("Storage type is not specified, check config.json");
+} else {
+	console.log("Unsupported storage type, check config.json");
+}
 
 var getPostsForRendering = function(callback) {
 	storage.getPosts(0, 100, function(posts) {
